@@ -8,4 +8,8 @@ spec:
       containers:
       - name: gpu-burn
         image: ghcr.io/kuoss/gpu-burn:v0.0.0-23.08
+        args: ["./gpu_burn", "300"]
+        resources:
+          limits:
+            nvidia.com/gpu: 2
       restartPolicy: Never
