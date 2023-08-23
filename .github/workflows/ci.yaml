@@ -13,7 +13,7 @@ jobs:
     - id: meta
       run: |
         TAG=${GITHUB_REF#refs/tags/}
-        IMAGE=ghcr.io/kuoss/gpu-burn-container:$TAG
+        IMAGE=ghcr.io/kuoss/gpu-burn:$TAG
         echo "TAG=$TAG"     >> $GITHUB_OUTPUT
         echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
     - uses: actions/checkout@v3
