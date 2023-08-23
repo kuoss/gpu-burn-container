@@ -27,4 +27,6 @@ jobs:
         docker build . -t ${{ steps.meta.outputs.IMAGE }}
     - name: Push image
       run: |
+        docker tag ${{ steps.meta.outputs.IMAGE }} ghcr.io/kuoss/gpu-burn:latest
         docker push ${{ steps.meta.outputs.IMAGE }}
+        docker push ghcr.io/kuoss/gpu-burn:latest
