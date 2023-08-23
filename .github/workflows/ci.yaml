@@ -1,0 +1,30 @@
+name: ci
+on:
+  push:
+    tags:        
+    - 'v*'
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+    - id: meta
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}
+        IMAGE=ghcr.io/kuoss/gpu-burn-container:$TAG
+        echo "TAG=$TAG"     >> $GITHUB_OUTPUT
+        echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
+    - uses: actions/checkout@v3
+      with:
+        repository: wilicc/gpu-burn
+        ref: ${{ steps.meta.outputs.TAG }}
+    - name: Log in to registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+    - name: Build image
+      run: |
+        docker build . -t ${{ steps.meta.outputs.IMAGE }}
+    - name: Push image
+      run: |
+        docker push ${{ steps.meta.outputs.IMAGE }}
