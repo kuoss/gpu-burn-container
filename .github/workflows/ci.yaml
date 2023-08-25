@@ -27,7 +27,7 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: Build image
       run: |
-        sed 's|FROM: nvidia/cuda|FROM: nvcr.io/nvidia/cuda|' -i Dockerfile
+        sed 's|FROM nvidia/cuda|FROM nvcr.io/nvidia/cuda|g' -i Dockerfile
         docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA }} . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
@@ -57,7 +57,7 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: Build image
       run: |
-        sed 's|FROM: nvidia/cuda|FROM: nvcr.io/nvidia/cuda|' -i Dockerfile
+        sed 's|FROM nvidia/cuda|FROM nvcr.io/nvidia/cuda|g' -i Dockerfile
         docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA }} . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
@@ -91,7 +91,7 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: Build image
       run: |
-        sed 's|FROM: nvidia/cuda|FROM: nvcr.io/nvidia/cuda|' -i Dockerfile
+        sed 's|FROM nvidia/cuda|FROM nvcr.io/nvidia/cuda|g' -i Dockerfile
         docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA }} . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
