@@ -13,7 +13,7 @@ jobs:
     - id: meta
       run: |
         CUDA_VERSION=10.2
-        IMAGE_DISTRO=ubi7
+        IMAGE_DISTRO=ubuntu18.04
         TAG=${GITHUB_REF#refs/tags/}
         IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA_VERSION
         IMAGE2=ghcr.io/kuoss/gpu-burn:cuda$CUDA_VERSION
