@@ -12,14 +12,16 @@ jobs:
     steps:
     - id: meta
       run: |
+        CUDA_VERSION=10.2
+        IMAGE_DISTRO=ubi7
         TAG=${GITHUB_REF#refs/tags/}
-        CUDA=10.2
-        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA
-        IMAGE2=ghcr.io/kuoss/gpu-burn:cuda$CUDA
-        echo "TAG=$TAG"       >> $GITHUB_OUTPUT
-        echo "CUDA=$CUDA"     >> $GITHUB_OUTPUT
-        echo "IMAGE1=$IMAGE1" >> $GITHUB_OUTPUT
-        echo "IMAGE2=$IMAGE2" >> $GITHUB_OUTPUT
+        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA_VERSION
+        IMAGE2=ghcr.io/kuoss/gpu-burn:cuda$CUDA_VERSION
+        echo "CUDA_VERSION=$CUDA_VERSION" >> $GITHUB_OUTPUT
+        echo "IMAGE_DISTRO=$IMAGE_DISTRO" >> $GITHUB_OUTPUT
+        echo "TAG=$TAG"                   >> $GITHUB_OUTPUT
+        echo "IMAGE1=$IMAGE1"             >> $GITHUB_OUTPUT
+        echo "IMAGE2=$IMAGE2"             >> $GITHUB_OUTPUT
     - uses: actions/checkout@v3
       with:
         repository: wilicc/gpu-burn
@@ -28,7 +30,7 @@ jobs:
     - name: Build image
       run: |
         sed 's|FROM nvidia/cuda|FROM nvcr.io/nvidia/cuda|g' -i Dockerfile
-        docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA }} . -t ${{ steps.meta.outputs.IMAGE1 }}
+        docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA_VERSION }} --build-arg IMAGE_DISTRO=${{ steps.meta.outputs.IMAGE_DISTRO }} . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
         docker push ${{ steps.meta.outputs.IMAGE1 }}
@@ -42,14 +44,16 @@ jobs:
     steps:
     - id: meta
       run: |
+        CUDA_VERSION=11.8.0
+        IMAGE_DISTRO=ubi8
         TAG=${GITHUB_REF#refs/tags/}
-        CUDA=11.8.0
-        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA
-        IMAGE2=ghcr.io/kuoss/gpu-burn:cuda$CUDA
-        echo "TAG=$TAG"       >> $GITHUB_OUTPUT
-        echo "CUDA=$CUDA"     >> $GITHUB_OUTPUT
-        echo "IMAGE1=$IMAGE1" >> $GITHUB_OUTPUT
-        echo "IMAGE2=$IMAGE2" >> $GITHUB_OUTPUT
+        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA_VERSION
+        IMAGE2=ghcr.io/kuoss/gpu-burn:cuda$CUDA_VERSION
+        echo "CUDA_VERSION=$CUDA_VERSION" >> $GITHUB_OUTPUT
+        echo "IMAGE_DISTRO=$IMAGE_DISTRO" >> $GITHUB_OUTPUT
+        echo "TAG=$TAG"                   >> $GITHUB_OUTPUT
+        echo "IMAGE1=$IMAGE1"             >> $GITHUB_OUTPUT
+        echo "IMAGE2=$IMAGE2"             >> $GITHUB_OUTPUT
     - uses: actions/checkout@v3
       with:
         repository: wilicc/gpu-burn
@@ -58,7 +62,7 @@ jobs:
     - name: Build image
       run: |
         sed 's|FROM nvidia/cuda|FROM nvcr.io/nvidia/cuda|g' -i Dockerfile
-        docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA }} . -t ${{ steps.meta.outputs.IMAGE1 }}
+        docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA_VERSION }} --build-arg IMAGE_DISTRO=${{ steps.meta.outputs.IMAGE_DISTRO }} . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
         docker push ${{ steps.meta.outputs.IMAGE1 }}
@@ -72,18 +76,20 @@ jobs:
     steps:
     - id: meta
       run: |
+        CUDA_VERSION=12.2.0
+        IMAGE_DISTRO=ubi8
         TAG=${GITHUB_REF#refs/tags/}
-        CUDA=12.2.0
-        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA
+        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA_VERSION
         IMAGE2=ghcr.io/kuoss/gpu-burn:$TAG
-        IMAGE3=ghcr.io/kuoss/gpu-burn:cuda$CUDA
+        IMAGE3=ghcr.io/kuoss/gpu-burn:cuda$CUDA_VERSION
         IMAGE4=ghcr.io/kuoss/gpu-burn:latest
-        echo "TAG=$TAG"       >> $GITHUB_OUTPUT
-        echo "CUDA=$CUDA"     >> $GITHUB_OUTPUT
-        echo "IMAGE1=$IMAGE1" >> $GITHUB_OUTPUT
-        echo "IMAGE2=$IMAGE2" >> $GITHUB_OUTPUT
-        echo "IMAGE3=$IMAGE3" >> $GITHUB_OUTPUT
-        echo "IMAGE4=$IMAGE4" >> $GITHUB_OUTPUT
+        echo "CUDA_VERSION=$CUDA_VERSION" >> $GITHUB_OUTPUT
+        echo "IMAGE_DISTRO=$IMAGE_DISTRO" >> $GITHUB_OUTPUT
+        echo "TAG=$TAG"                   >> $GITHUB_OUTPUT
+        echo "IMAGE1=$IMAGE1"             >> $GITHUB_OUTPUT
+        echo "IMAGE2=$IMAGE2"             >> $GITHUB_OUTPUT
+        echo "IMAGE3=$IMAGE3"             >> $GITHUB_OUTPUT
+        echo "IMAGE4=$IMAGE4"             >> $GITHUB_OUTPUT
     - uses: actions/checkout@v3
       with:
         repository: wilicc/gpu-burn
@@ -92,7 +98,7 @@ jobs:
     - name: Build image
       run: |
         sed 's|FROM nvidia/cuda|FROM nvcr.io/nvidia/cuda|g' -i Dockerfile
-        docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA }} . -t ${{ steps.meta.outputs.IMAGE1 }}
+        docker build --build-arg CUDA_VERSION=${{ steps.meta.outputs.CUDA_VERSION }} --build-arg IMAGE_DISTRO=${{ steps.meta.outputs.IMAGE_DISTRO }} . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
         docker push ${{ steps.meta.outputs.IMAGE1 }}
