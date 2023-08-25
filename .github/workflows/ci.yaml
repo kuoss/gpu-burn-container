@@ -44,7 +44,7 @@ jobs:
     steps:
     - id: meta
       run: |
-        CUDA_VERSION=11.2.0
+        CUDA_VERSION=11.4.2
         IMAGE_DISTRO=ubi8
         TAG=${GITHUB_REF#refs/tags/}
         IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA_VERSION
