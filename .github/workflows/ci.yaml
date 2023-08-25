@@ -4,7 +4,7 @@ on:
     tags:        
     - 'v*'
 jobs:
-  push:
+  push11:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -12,21 +12,55 @@ jobs:
     steps:
     - id: meta
       run: |
+        CUDA=11.8.0
         TAG=${GITHUB_REF#refs/tags/}
-        IMAGE=ghcr.io/kuoss/gpu-burn:$TAG
-        echo "TAG=$TAG"     >> $GITHUB_OUTPUT
-        echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
+        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA
+        IMAGE2=ghcr.io/kuoss/gpu-burn:$TAG
+        IMAGE3=ghcr.io/kuoss/gpu-burn:cuda$CUDA
+        IMAGE4=ghcr.io/kuoss/gpu-burn:latest
+        echo "TAG=$TAG"       >> $GITHUB_OUTPUT
+        echo "IMAGE1=$IMAGE1" >> $GITHUB_OUTPUT
+        echo "IMAGE2=$IMAGE2" >> $GITHUB_OUTPUT
+        echo "IMAGE3=$IMAGE3" >> $GITHUB_OUTPUT
+        echo "IMAGE4=$IMAGE4" >> $GITHUB_OUTPUT
     - uses: actions/checkout@v3
       with:
         repository: wilicc/gpu-burn
-        #ref: ${{ steps.meta.outputs.TAG }}
     - name: Log in to registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
     - name: Build image
       run: |
-        docker build . -t ${{ steps.meta.outputs.IMAGE }}
+        docker build . -t ${{ steps.meta.outputs.IMAGE1 }}
     - name: Push image
       run: |
-        docker tag ${{ steps.meta.outputs.IMAGE }} ghcr.io/kuoss/gpu-burn:latest
-        docker push ${{ steps.meta.outputs.IMAGE }}
-        docker push ghcr.io/kuoss/gpu-burn:latest
+        docker push ${{ steps.meta.outputs.IMAGE1 }}
+        docker tag ${{ steps.meta.outputs.IMAGE1 }} ${{ steps.meta.outputs.IMAGE2 }}; docker push ${{ steps.meta.outputs.IMAGE2 }}
+        docker tag ${{ steps.meta.outputs.IMAGE1 }} ${{ steps.meta.outputs.IMAGE3 }}; docker push ${{ steps.meta.outputs.IMAGE3 }}
+        docker tag ${{ steps.meta.outputs.IMAGE1 }} ${{ steps.meta.outputs.IMAGE4 }}; docker push ${{ steps.meta.outputs.IMAGE4 }}
+  push10:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+    - id: meta
+      run: |
+        CUDA=10.2
+        TAG=${GITHUB_REF#refs/tags/}
+        IMAGE1=ghcr.io/kuoss/gpu-burn:$TAG-cuda$CUDA
+        IMAGE2=ghcr.io/kuoss/gpu-burn:cuda$CUDA
+        echo "TAG=$TAG"       >> $GITHUB_OUTPUT
+        echo "IMAGE1=$IMAGE1" >> $GITHUB_OUTPUT
+        echo "IMAGE2=$IMAGE2" >> $GITHUB_OUTPUT
+    - uses: actions/checkout@v3
+      with:
+        repository: wilicc/gpu-burn
+    - name: Log in to registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+    - name: Build image
+      run: |
+        docker build . -t ${{ steps.meta.outputs.IMAGE1 }}
+    - name: Push image
+      run: |
+        docker push ${{ steps.meta.outputs.IMAGE1 }}
+        docker tag ${{ steps.meta.outputs.IMAGE1 }} ${{ steps.meta.outputs.IMAGE2 }}; docker push ${{ steps.meta.outputs.IMAGE2 }}
