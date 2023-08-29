@@ -15,5 +15,5 @@ alerternatives:
 - nvcr.io/nvidia/k8s/cuda-sample:nbody-cuda11.6.0-ubuntu18.04
 - nvcr.io/nvidia/k8s/cuda-sample:nbody-cuda11.2.1
 - nvcr.io/nvidia/k8s/cuda-sample:nbody-cuda11.1
-- 
+ 
 https://catalog.ngc.nvidia.com/orgs/nvidia/teams/k8s/containers/cuda-sample/tags
