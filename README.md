@@ -17,3 +17,26 @@ alerternatives:
 - nvcr.io/nvidia/k8s/cuda-sample:nbody-cuda11.1
  
 https://catalog.ngc.nvidia.com/orgs/nvidia/teams/k8s/containers/cuda-sample/tags
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sample
+spec:
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: sample
+        image: nvcr.io/nvidia/k8s/cuda-sample:nbody-cuda11.2.1
+        args: ["nbody", "-gpu", "-benchmark", "-numbodies=2560000"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+```
